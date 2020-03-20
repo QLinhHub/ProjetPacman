@@ -3837,14 +3837,15 @@
 	<assert.h>
 	<fstream>
 
-1584736246 d:\git\projetpacman\pacman-with-qt-x64\jeu.h
+1584740534 d:\git\projetpacman\pacman-with-qt-x64\jeu.h
 	<list>
 
-1584707821 source:d:\git\projetpacman\pacman-with-qt-x64\main.cpp
+1584745355 source:d:\git\projetpacman\pacman-with-qt-x64\main.cpp
 	<time.h>
+	<QtWidgets/qapplication.h>
 	"pacmanwindow.h"
 
-1584737996 d:\git\projetpacman\pacman-with-qt-x64\pacmanwindow.h
+1584744651 d:\git\projetpacman\pacman-with-qt-x64\pacmanwindow.h
 	<QtCore/QtCore>
 	<QtWidgets/QtWidgets>
 	"jeu.h"
@@ -7659,7 +7660,11 @@
 
 1584707821 d:\git\projetpacman\qtbase-small-5.6.3-x64\include\qtwidgets\qtwidgetsversion.h
 
-1584737945 source:d:\git\projetpacman\pacman-with-qt-x64\pacmanwindow.cpp
+1584745746 source:d:\git\projetpacman\pacman-with-qt-x64\pacmanwindow.cpp
 	<iostream>
 	"pacmanwindow.h"
+
+1584742684 d:\git\projetpacman\pacman-with-qt-x64\form.h
+	<QtCore/QtCore>
+	<QtWidgets/QtWidgets>
 

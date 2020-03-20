@@ -48,5 +48,13 @@ class PacmanButton : public QPushButton
 
 };
 
+class Form : public QWidget {
+
+  public:
+    Form(QWidget *parent = 0);
+    void handleCommence() ;
+};
+
+
 
 #endif
