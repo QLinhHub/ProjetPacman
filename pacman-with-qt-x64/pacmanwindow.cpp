@@ -142,13 +142,17 @@ Form::Form(QWidget *parent)
     formLayout->addRow("",btn_commence);
     btn_commence->setText("Commmencer");
 
+//    QMessageBox gagnerBox;
+//    gagnerBox.setText("Felicitations ! YOLO");
+//    gagnerBox.setInformativeText(nameEdit->text());
 
     connect(btn_commence, PacmanButton::clicked, this, handleCommence);
 
-  setLayout(formLayout);
+    setLayout(formLayout);
 }
 void Form:: handleCommence()
 {
+
     PacmanWindow * wnd = new PacmanWindow;
     wnd->show();
 }
