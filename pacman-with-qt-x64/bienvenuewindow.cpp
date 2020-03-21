@@ -1,7 +1,7 @@
 #include <iostream>
 #include "bienvenuewindow.h"
 #include "pacmanwindow.h"
-#include "onePlayerwindow.h"
+#include "joueurwindow.h"
 
 using namespace std;
 
@@ -31,19 +31,19 @@ bienvenuewindow::bienvenuewindow(QWidget* pparent, Qt::WindowFlags flags) : QFra
 }
 
 void bienvenuewindow::openOPW1(){
-    onePlayer* pwn = new onePlayer();
+    Joueur* pwn = new Joueur;
 
     pwn->setNombre(1);
-
+    pwn->evolue();
     pwn->show();
     close();
 }
 
 void bienvenuewindow::openOPW2(){
-    onePlayer* pwn = new onePlayer();
+    Joueur* pwn = new Joueur;
 
     pwn->setNombre(2);
-
+    pwn->evolue();
     pwn->show();
     close();
 }

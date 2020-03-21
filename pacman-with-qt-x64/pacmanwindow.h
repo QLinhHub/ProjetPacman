@@ -4,7 +4,7 @@
 #include <QtCore/QtCore>
 #include <QtWidgets/QtWidgets>
 #include "jeu.h"
-#include "onePlayerwindow.h"
+#include "joueurwindow.h"
 
 class PacmanWindow : public QFrame
 {
