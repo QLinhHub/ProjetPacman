@@ -1,5 +1,9 @@
 #include <time.h>
-#include "pacmanwindow.h"
+
+#include<QtWidgets/qapplication.h>
+
+#include "bienvenuewindow.h"
+
 
 Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
 
@@ -9,8 +13,9 @@ int main(int argc, char *argv[])
 
     srand(time(0));
 
-    PacmanWindow wnd;
-    wnd.show();
+    bienvenuewindow bvn;
+    bvn.show();
+
 
     return app.exec();
 }
