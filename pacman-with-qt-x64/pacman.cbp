@@ -39,8 +39,12 @@
 			<Add directory="../qtbase-small-5.6.3-x64/lib" />
 			<Add directory="../qtbase-small-5.6.3-x64/plugins/platforms" />
 		</Linker>
+		<Unit filename="bienvenuewindow.cpp" />
+		<Unit filename="bienvenuewindow.h" />
 		<Unit filename="jeu.cpp" />
 		<Unit filename="jeu.h" />
+		<Unit filename="joueurwindow.cpp" />
+		<Unit filename="joueurwindow.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="pacmanwindow.cpp" />
 		<Unit filename="pacmanwindow.h" />
