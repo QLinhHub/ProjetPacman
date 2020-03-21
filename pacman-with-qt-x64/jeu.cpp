@@ -32,11 +32,11 @@ Jeu::~Jeu()
         delete[] terrain;
 }
 
-bool Jeu::init()
-{
-	int x, y;
-	list<Fantome>::iterator itFantome;
-
+//bool Jeu::init()
+//{
+//	int x, y;
+//	list<Fantome>::iterator itFantome;
+//
 //	const char terrain_defaut[15][21] = {
 //		"####################",
 //		"#........##........#",
@@ -54,14 +54,76 @@ bool Jeu::init()
 //		"#.....#......#.....#",
 //        "####################"
 //    };
-    ifstream mur;
-    mur.open("mur.txt");
-    char terrain_defaut[15][21] = {};
+////    ifstream mur;
+////    mur.open("mur.txt");
+////    char terrain_defaut[15][21] = {};
+////
+////    for(int i = 0; i < 15; i++){
+////        for(int j = 0; j < 20; j++)
+////            mur >> terrain_defaut[i][j];
+////    }
+////    mur.close();
+//
+//	largeur = 20;
+//	hauteur = 15;
+//
+//	terrain = new Case[largeur*hauteur];
+//
+//	for(y=0;y<hauteur;++y)
+//		for(x=0;x<largeur;++x)
+//            if (terrain_defaut[y][x]=='#')
+//                terrain[y*largeur+x] = MUR;
+//            else
+//                terrain[y*largeur+x] = VIDE;
+//
+//    fantomes.resize(10);
+//
+//	for (itFantome=fantomes.begin(); itFantome!=fantomes.end(); itFantome++)
+//    {
+//        do {
+//            x = rand()%largeur;
+//            y = rand()%hauteur;
+//        } while (terrain[y*largeur+x]!=VIDE);
+//
+//        itFantome->posX = x;
+//        itFantome->posY = y;
+//        itFantome->dir = (Direction)(rand()%4);
+//    }
+//
+//    do {
+//        x = rand()%largeur;
+//        y = rand()%hauteur;
+//    } while (terrain[y*largeur+x]!=VIDE);
+//
+//    posPacmanX = x,
+//    posPacmanY = y;
+//
+//    return true;
+//}
 
-    for(int i = 0; i < 15; i++){
-        for(int j = 0; j < 20; j++)
-            mur >> terrain_defaut[i][j];
+bool Jeu::initMur()
+{
+    int x, y;
+    char terrain_defaut[15][21]={};
+    ifstream mur;
+    if(modeNormal == true)
+    {
+        mur.open("mur.txt");
+        for(int i = 0; i < 15; i++)
+            for(int j = 0; j < 20; j++)
+                mur >> terrain_defaut[i][j];
+        mur.close();
+
+    }else
+    {
+        mur.open("mur1.txt");
+
+        for(int i = 0; i < 15; i++)
+            for(int j = 0; j < 20; j++)
+                mur >> terrain_defaut[i][j];
+        mur.close();
     }
+
 	largeur = 20;
 	hauteur = 15;
 
@@ -73,8 +135,17 @@ bool Jeu::init()
                 terrain[y*largeur+x] = MUR;
             else
                 terrain[y*largeur+x] = VIDE;
+    return true;
+}
 
-    fantomes.resize(10);
+bool Jeu::initFantomes_Pacman()
+{
+    int x, y;
+    list<Fantome>::iterator itFantome;
+    largeur = 20;
+	hauteur = 15;
+
+    fantomes.resize(nbFantomes);
 
 	for (itFantome=fantomes.begin(); itFantome!=fantomes.end(); itFantome++)
     {
@@ -122,10 +193,10 @@ void Jeu::evolue()
             itFantome->dir = (Direction)(rand()%4);
     }
 
-    for(auto it = fantomes.begin(); it != fantomes.end(); it++){
-        if(it->getPosX() == getPacmanX() && it->getPosY() == getPacmanY())
-            fantomes.erase(it);
-    }
+//    for(auto it = fantomes.begin(); it != fantomes.end(); it++){
+//        if(it->getPosX() == getPacmanX() && it->getPosY() == getPacmanY())
+//            fantomes.erase(it);
+//    }
 }
 
 int Jeu::getNbCasesX() const

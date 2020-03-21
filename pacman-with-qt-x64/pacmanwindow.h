@@ -8,6 +8,8 @@
 
 class PacmanWindow : public QFrame
 {
+  private:
+    int vitesse_time;
   protected:
     Jeu jeu;
     QPixmap pixmapPacman, pixmapTime, pixmapFantome, pixmapMur ;
@@ -18,10 +20,10 @@ class PacmanWindow : public QFrame
 
   public:
     PacmanWindow(QWidget *pParent=0, Qt::WindowFlags flags=0);
+    void evolue_window();
     void handleTimer();
     void ajoutFantome();        // ajouter un fantome
     void supprFantome();        // supprimer un fantome
-
 
     bool isCollision();
     void handleCollision();
@@ -31,7 +33,17 @@ class PacmanWindow : public QFrame
 
     void resultat();
 
+    void setVitessetime(int n){
+        vitesse_time = n;
+    }
 
+    void set_nbFantomes(int n){
+        jeu.setNbFantomes(n);
+    }
+
+    void set_mode(bool b){
+        jeu.setMode(b);
+    }
     protected:
         void paintEvent(QPaintEvent *);
         void keyPressEvent(QKeyEvent *);

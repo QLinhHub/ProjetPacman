@@ -28,6 +28,8 @@ bienvenuewindow::bienvenuewindow(QWidget* pparent, Qt::WindowFlags flags) : QFra
     connect(oneP, QPushButton::clicked, this, openOPW1);
     connect(twoP, QPushButton::clicked, this, openOPW2);
     connect(exit, QPushButton::clicked, this, close);
+
+    resize(500, 500);
 }
 
 void bienvenuewindow::openOPW1(){

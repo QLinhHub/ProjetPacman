@@ -12,7 +12,6 @@ public:
 protected:
     void openOPW1();
     void openOPW2();
-
 };
 
 
