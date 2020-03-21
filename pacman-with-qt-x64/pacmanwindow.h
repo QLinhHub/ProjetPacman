@@ -32,12 +32,9 @@ class PacmanWindow : public QFrame
     void resultat();
 
 
-
-
-
-  protected:
-    void paintEvent(QPaintEvent *);
-    void keyPressEvent(QKeyEvent *);
+    protected:
+        void paintEvent(QPaintEvent *);
+        void keyPressEvent(QKeyEvent *);
 };
 
 class PacmanButton : public QPushButton

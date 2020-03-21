@@ -6,19 +6,33 @@
 using namespace std;
 
 onePlayer::onePlayer(QWidget* pparent, Qt::WindowFlags flags) : QFrame(pparent, flags){
-    QLineEdit *name = new QLineEdit(this);
-    //QLineEdit *numFantomes = new QLineEdit(this);
-    QSlider* s_numFantomes = new QSlider(Qt::Horizontal , this);
-    //QLineEdit *vitesse = new QLineEdit(this);
-    QSlider* s_vitesse = new QSlider(Qt::Horizontal , this);
-    PacmanButton *btn_commence = new PacmanButton(this);
-    btn_commence->setText("Commmencer");
-    QLabel *labelNF = new QLabel("0", this);
-    QLabel *labelVT = new QLabel("0", this);
 
     QFormLayout *formLayout = new QFormLayout;
     formLayout->setLabelAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    formLayout->addRow("Name:", name);
+
+    if (nombreJoueur == 1)
+    {
+        name1 = new QLineEdit(this);
+        formLayout->addRow("Name:", name1);
+    }
+    else
+    {
+        name1 = new QLineEdit(this);
+        formLayout->addRow("Name1:", name1);
+        name2 = new QLineEdit(this);
+        formLayout->addRow("Name2:", name2);
+    }
+
+    labelNF = new QLabel("0", this);
+    labelVT = new QLabel("0", this);
+
+    QSlider* s_numFantomes = new QSlider(Qt::Horizontal , this);
+    QSlider* s_vitesse = new QSlider(Qt::Horizontal , this);
+
+
+    PacmanButton *btn_commence = new PacmanButton(this);
+    btn_commence->setText("Commmencer");
+
     //formLayout->addRow("Nombre de Fantome:", numFantomes);
     formLayout->addRow("", s_numFantomes);
     formLayout->addRow("Nombre de Fantomes: ", labelNF);
@@ -32,22 +46,15 @@ onePlayer::onePlayer(QWidget* pparent, Qt::WindowFlags flags) : QFrame(pparent, 
     connect(s_vitesse, &QSlider::valueChanged, labelVT, static_cast<void (QLabel::*)(int)>(&QLabel::setNum));
 
     setLayout(formLayout);
-    //connect(exit, QPushButton::clicked, this, openPW);
-
-    QString strNF;
-    strNF = labelNF->text();
-
-    numFantomes = strNF.toInt();
 }
 void onePlayer:: handleCommence()
 {
+
     PacmanWindow * wnd = new PacmanWindow;
+
+
+
     wnd->show();
 
     close();
 }
-
-//void bienvenuewindow::openPW(){
-//    PacmanWindow* pwn = new PacmanWindow();
-//    pwn->show();
-//}

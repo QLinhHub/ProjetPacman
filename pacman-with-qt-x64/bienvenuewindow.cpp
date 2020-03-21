@@ -25,12 +25,26 @@ bienvenuewindow::bienvenuewindow(QWidget* pparent, Qt::WindowFlags flags) : QFra
 
     setLayout(vbox);
 
-    connect(oneP, QPushButton::clicked, this, openOPW);
+    connect(oneP, QPushButton::clicked, this, openOPW1);
+    connect(twoP, QPushButton::clicked, this, openOPW2);
     connect(exit, QPushButton::clicked, this, close);
 }
 
-void bienvenuewindow::openOPW(){
+void bienvenuewindow::openOPW1(){
     onePlayer* pwn = new onePlayer();
+
+    pwn->setNombre(1);
+
     pwn->show();
     close();
 }
+
+void bienvenuewindow::openOPW2(){
+    onePlayer* pwn = new onePlayer();
+
+    pwn->setNombre(2);
+
+    pwn->show();
+    close();
+}
+

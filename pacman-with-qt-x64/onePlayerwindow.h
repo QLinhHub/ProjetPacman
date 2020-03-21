@@ -10,19 +10,38 @@ class onePlayer : public QFrame{
   public:
     onePlayer(QWidget* pparent=0, Qt::WindowFlags flags=0);
     void handleCommence();
-    int getVitesse(){
-        return vitesse;
+
+    int getVitesse()
+    {
+        return (labelVT->text()).toInt();
     }
-    int getnumFantomes(){
-        return numFantomes;
+
+    int getnumFantomes()
+    {
+        return (labelNF->text()).toInt();
     }
-    string getName(){
-    return name;
+
+    string getName1()
+    {
+    return (name1->text()).toStdString();
     }
+
+    string getName2()
+    {
+    return (name2->text()).toStdString();
+    }
+
+    void setNombre(int a){
+        nombreJoueur = a;
+    }
+
   private:
-    int vitesse;
-    int numFantomes;
-    string name;
+
+    QLineEdit *name1;
+    QLineEdit *name2;
+    QLabel *labelNF;
+    QLabel *labelVT;
+    int nombreJoueur;
 };
 
 
