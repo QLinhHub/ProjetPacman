@@ -3,6 +3,8 @@
 #include<QtWidgets/qapplication.h>
 
 #include "pacmanwindow.h"
+#include "bienvenuewindow.h"
+#include "onePlayerwindow.h"
 
 Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
 
@@ -12,13 +14,8 @@ int main(int argc, char *argv[])
 
     srand(time(0));
 
-   // PacmanWindow wnd;
-
-    Form window;
-
-
-    window.setWindowTitle("Form example");
-    window.show();
+    bienvenuewindow bvn;
+    bvn.show();
 
 
     return app.exec();
