@@ -1,21 +1,25 @@
 # depslib dependency file v1.0
-1584700860 source:d:\projetpacman\pacman-with-qt-x64\jeu.cpp
+1584792128 source:d:\projetpacman\pacman-with-qt-x64\jeu.cpp
 	"jeu.h"
 	<iostream>
 	<assert.h>
 	<fstream>
 
-1520353186 d:\projetpacman\pacman-with-qt-x64\jeu.h
+1584743059 d:\projetpacman\pacman-with-qt-x64\jeu.h
 	<list>
 
-1520249948 source:d:\projetpacman\pacman-with-qt-x64\main.cpp
+1584785338 source:d:\projetpacman\pacman-with-qt-x64\main.cpp
 	<time.h>
+	<QtWidgets/qapplication.h>
 	"pacmanwindow.h"
+	"bienvenuewindow.h"
+	"onePlayerwindow.h"
 
-1520353484 d:\projetpacman\pacman-with-qt-x64\pacmanwindow.h
+1584791739 d:\projetpacman\pacman-with-qt-x64\pacmanwindow.h
 	<QtCore/QtCore>
 	<QtWidgets/QtWidgets>
 	"jeu.h"
+	"onePlayerwindow.h"
 
 1505725032 d:\projetpacman\qtbase-small-5.6.3-x64\include\qtcore\qtcore
 	<QtCore/QtCoreDepends>
@@ -3827,7 +3831,7 @@
 
 1505725030 d:\projetpacman\qtbase-small-5.6.3-x64\include\qtwidgets\qtwidgetsversion.h
 
-1584700787 source:d:\projetpacman\pacman-with-qt-x64\pacmanwindow.cpp
+1584791885 source:d:\projetpacman\pacman-with-qt-x64\pacmanwindow.cpp
 	<iostream>
 	"pacmanwindow.h"
 
@@ -7667,4 +7671,26 @@
 1584742684 d:\git\projetpacman\pacman-with-qt-x64\form.h
 	<QtCore/QtCore>
 	<QtWidgets/QtWidgets>
+
+1584785467 d:\projetpacman\pacman-with-qt-x64\bienvenuewindow.h
+	<QtCore/QtCore>
+	<QtWidgets/QtWidgets>
+	"jeu.h"
+
+1584790970 d:\projetpacman\pacman-with-qt-x64\oneplayerwindow.h
+	<QtCore/QtCore>
+	<QtWidgets/QtWidgets>
+	"jeu.h"
+
+1584787642 source:d:\projetpacman\pacman-with-qt-x64\bienvenuewindow.cpp
+	<iostream>
+	"bienvenuewindow.h"
+	"pacmanwindow.h"
+	"onePlayerwindow.h"
+
+1584791737 source:d:\projetpacman\pacman-with-qt-x64\oneplayerwindow.cpp
+	<iostream>
+	"bienvenuewindow.h"
+	"pacmanwindow.h"
+	"onePlayerwindow.h"
 

@@ -4,6 +4,7 @@
 #include <QtCore/QtCore>
 #include <QtWidgets/QtWidgets>
 #include "jeu.h"
+#include "onePlayerwindow.h"
 
 class PacmanWindow : public QFrame
 {
@@ -47,14 +48,6 @@ class PacmanButton : public QPushButton
         PacmanButton(QWidget *parent=0);
 
 };
-
-class Form : public QWidget {
-
-  public:
-    Form(QWidget *parent = 0);
-    void handleCommence() ;
-};
-
 
 
 #endif

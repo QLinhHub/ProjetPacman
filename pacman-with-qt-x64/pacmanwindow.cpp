@@ -124,31 +124,3 @@ void PacmanButton::keyPressEvent(QKeyEvent *e)
     if(parent() != NULL)
         QCoreApplication::sendEvent(parent(), e);
 }
-
-Form::Form(QWidget *parent)
-    : QWidget(parent) {
-
-    QLineEdit *nameEdit = new QLineEdit(this);
-    QLineEdit *addrEdit = new QLineEdit(this);
-    QLineEdit *occpEdit = new QLineEdit(this);
-    PacmanButton *btn_commence = new PacmanButton(this);
-    btn_commence->setText("Commmencer");
-
-    QFormLayout *formLayout = new QFormLayout;
-    formLayout->setLabelAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    formLayout->addRow("Name:", nameEdit);
-    formLayout->addRow("Nombre de Fantome:", addrEdit);
-    formLayout->addRow("Vitesse:", occpEdit);
-    formLayout->addRow("",btn_commence);
-    btn_commence->setText("Commmencer");
-
-
-    connect(btn_commence, PacmanButton::clicked, this, handleCommence);
-
-  setLayout(formLayout);
-}
-void Form:: handleCommence()
-{
-    PacmanWindow * wnd = new PacmanWindow;
-    wnd->show();
-}
