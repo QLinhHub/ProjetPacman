@@ -10,14 +10,12 @@ class PacmanWindow : public QFrame
 {
   private:
     int vitesse_time;
+    QLabel* label_countdown;
+    QTime countdown;
   protected:
     Jeu jeu;
     QPixmap pixmapPacman, pixmapTime, pixmapFantome, pixmapMur ;
-
     QPixmap pixmapPacHaut, pixmapPacBas, pixmapPacGauche, pixmapPacDroite;
-
-
-
   public:
     PacmanWindow(QWidget *pParent=0, Qt::WindowFlags flags=0);
     void evolue_window();
@@ -32,6 +30,7 @@ class PacmanWindow : public QFrame
     bool handleCollisionTime();
 
     void resultat();
+    void handleCountdown();
 
     void setVitessetime(int n){
         vitesse_time = n;
