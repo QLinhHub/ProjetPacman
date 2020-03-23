@@ -8,17 +8,30 @@
 
 class PacmanWindow : public QFrame
 {
+  private:
+    QLabel* label_countdown;
+    QTime countdown;
+
+
   protected:
     Jeu jeu;
-    QPixmap pixmapPacman, pixmapTime, pixmapFantome, pixmapMur ;
 
+    QPixmap pixmapPacman, pixmapTime, pixmapFantome, pixmapMur ;
     QPixmap pixmapPacHaut, pixmapPacBas, pixmapPacGauche, pixmapPacDroite;
 
 
 
   public:
     PacmanWindow(QWidget *pParent=0, Qt::WindowFlags flags=0);
+
+    void configurer(int ,int ,int, int);
+    void startJeu();
+
+
     void handleTimer();
+    void handleCountdown();
+
+
     void ajoutFantome();        // ajouter un fantome
     void supprFantome();        // supprimer un fantome
 

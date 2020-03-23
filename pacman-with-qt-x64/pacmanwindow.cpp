@@ -28,29 +28,51 @@ PacmanWindow::PacmanWindow(QWidget *pParent, Qt::WindowFlags flags):QFrame(pPare
 
     jeu.init();
 
-    QTimer *timer = new QTimer(this);
-    connect(timer, QTimer::timeout, this, PacmanWindow::handleTimer);
-    timer->start(100);
+
 
     largeurCase = pixmapMur.width();
     hauteurCase = pixmapMur.height();
 
-    resize(jeu.getNbCasesX()*largeurCase, jeu.getNbCasesY()*hauteurCase+3*hauteurCase);
+    resize(jeu.getNbCasesX()*largeurCase*2, jeu.getNbCasesY()*hauteurCase+3*hauteurCase);
 
-//    Ajout button "Ajout Fantome"
-    PacmanButton *btn_ajout = new PacmanButton(this);
-    btn_ajout->setFixedSize(100,20);
-    btn_ajout->setText("Ajout Fantome");
-    btn_ajout->move(10,10);
-    connect(btn_ajout, PacmanButton::clicked, this, PacmanWindow::ajoutFantome);
-
-//  Ajout button "Suppr Fantome"
-    PacmanButton *btn_suppr = new PacmanButton(this);
-    btn_suppr->setFixedSize(100,20);
-    btn_suppr->setText("Suppr Fantome");
-    btn_suppr->move(120,10);
-    connect(btn_suppr, PacmanButton::clicked, this, PacmanWindow::supprFantome);
+////    Ajout button "Ajout Fantome"
+//    PacmanButton *btn_ajout = new PacmanButton(this);
+//    btn_ajout->setFixedSize(100,20);
+//    btn_ajout->setText("Ajout Fantome");
+//    btn_ajout->move(10,10);
+//    connect(btn_ajout, PacmanButton::clicked, this, PacmanWindow::ajoutFantome);
+//
+////  Ajout button "Suppr Fantome"
+//    PacmanButton *btn_suppr = new PacmanButton(this);
+//    btn_suppr->setFixedSize(100,20);
+//    btn_suppr->setText("Suppr Fantome");
+//    btn_suppr->move(120,10);
+//    connect(btn_suppr, PacmanButton::clicked, this, PacmanWindow::supprFantome);
 }
+
+void PacmanWindow::configurer(int nJoueur, int nFantome, int vit, int mode)
+{
+    jeu.setInfoJeu(nJoueur,nFantome,vit, mode);
+    jeu.init();
+}
+
+void PacmanWindow::startJeu()
+{
+    QTimer *timer = new QTimer(this);
+    connect(timer, QTimer::timeout, this, PacmanWindow::handleTimer);
+    timer->start(jeu.getVitesse());
+
+    label_countdown = new QLabel("0:10", this);
+    label_countdown->setGeometry(QRect(QPoint(900, 45), QSize(130, 50)));
+    label_countdown->setFont(QFont("Arial", 30));
+
+    countdown.setHMS(0,0,10,0);
+    QTimer *time = new QTimer(this);
+    connect(time, QTimer::timeout, this, PacmanWindow::handleCountdown);
+    time->start(1000);
+
+}
+
 
 void PacmanWindow::paintEvent(QPaintEvent *)
 {
@@ -75,24 +97,24 @@ void PacmanWindow::paintEvent(QPaintEvent *)
         painter.drawPixmap(itFantome->getPosX()*largeurCase, itFantome->getPosY()*hauteurCase+3*hauteurCase, pixmapFantome);
 
 	// Dessine Pacman
-	painter.drawPixmap(jeu.getPacmanX()*largeurCase, jeu.getPacmanY()*hauteurCase+3*hauteurCase, pixmapPacman);
+	painter.drawPixmap(jeu.pacmanA.getPosX()*largeurCase, jeu.pacmanA.getPosY()*hauteurCase+3*hauteurCase, pixmapPacman);
 }
 
 void PacmanWindow::keyPressEvent(QKeyEvent *event)
 {
     if (event->key()==Qt::Key_Left)
-        jeu.deplacePacman(GAUCHE);
+        jeu.deplacePacman(jeu.pacmanA,GAUCHE);
     else if (event->key()==Qt::Key_Right)
-        jeu.deplacePacman(DROITE);
+        jeu.deplacePacman(jeu.pacmanA,DROITE);
     else if (event->key()==Qt::Key_Up)
-        jeu.deplacePacman(HAUT);
+        jeu.deplacePacman(jeu.pacmanA,HAUT);
     else if (event->key()==Qt::Key_Down)
-        jeu.deplacePacman(BAS);
+        jeu.deplacePacman(jeu.pacmanA,BAS);
     //Pacman mange un Fantom
-    for(auto it = jeu.fantomes.begin(); it != jeu.fantomes.end(); it++){
-        if(it->getPosX() == jeu.getPacmanX() && it->getPosY() == jeu.getPacmanY())
-            jeu.fantomes.erase(it);
-    }
+//    for(auto it = jeu.fantomes.begin(); it != jeu.fantomes.end(); it++){
+//        if(it->getPosX() == jeu.getPacmanX() && it->getPosY() == jeu.getPacmanY())
+//            jeu.fantomes.erase(it);
+//    }
     update();
 }
 
@@ -101,6 +123,13 @@ void PacmanWindow::handleTimer()
     jeu.evolue();
     repaint();
 }
+
+void PacmanWindow::handleCountdown()
+{
+    countdown = countdown.addSecs(-1);
+    label_countdown->setText(countdown.toString("m:ss"));
+}
+
 
 void PacmanWindow::ajoutFantome()
 {

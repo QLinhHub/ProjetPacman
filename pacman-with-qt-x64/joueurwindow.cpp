@@ -5,9 +5,8 @@
 
 using namespace std;
 Joueur::Joueur(QWidget* pparent, Qt::WindowFlags flags) : QFrame(pparent, flags){
-
-    labelNF = new QLabel("0", this);
-    labelVT = new QLabel("0", this);
+    labelNF = new QLabel("10", this);
+    labelVT = new QLabel("10", this);
 }
 
 void Joueur::evolue()
@@ -31,10 +30,16 @@ void Joueur::evolue()
     QSlider* s_numFantomes = new QSlider(Qt::Horizontal , this);
     QSlider* s_vitesse = new QSlider(Qt::Horizontal , this);
 
+    QRadioButton *radio1 = new QRadioButton(tr("Normal Mode"));
+    QRadioButton *radio2 = new QRadioButton(tr("Advanced Mode"));
+
+    QVBoxLayout *vbox = new QVBoxLayout;
+    vbox->addWidget(radio1);
+    vbox->addWidget(radio2);
+    vbox->addStretch(1);
 
     PacmanButton *btn_commence = new PacmanButton(this);
     btn_commence->setText("Commmencer");
-
     PacmanButton *btn_retourne = new PacmanButton(this);
     btn_retourne->setText("Retourner");
 
@@ -43,14 +48,24 @@ void Joueur::evolue()
     formLayout->addRow("Nombre de Fantomes: ", labelNF);
     formLayout->addRow("", s_vitesse);
     formLayout->addRow("Vitesse:", labelVT);
+    formLayout->addRow("Mode",vbox);
     formLayout->addRow(btn_retourne,btn_commence);
-    btn_commence->setText("Commmencer");
+
+    connect(s_numFantomes, &QSlider::valueChanged, labelNF, static_cast<void (QLabel::*)(int)>(&QLabel::setNum));
+    connect(s_vitesse, &QSlider::valueChanged, labelVT, static_cast<void (QLabel::*)(int)>(&QLabel::setNum));
+    connect(radio1, QRadioButton::toggled, this, setNumMode);
+    radio1->setChecked(true);
+
 
     connect(btn_commence, PacmanButton::clicked, this, handleCommence);
     connect(btn_retourne, PacmanButton::clicked, this, handleRetourne);
 
-    connect(s_numFantomes, &QSlider::valueChanged, labelNF, static_cast<void (QLabel::*)(int)>(&QLabel::setNum));
-    connect(s_vitesse, &QSlider::valueChanged, labelVT, static_cast<void (QLabel::*)(int)>(&QLabel::setNum));
+
+
+
+
+
+
 
     setLayout(formLayout);
 }
@@ -61,6 +76,8 @@ void Joueur:: handleCommence()
 
     PacmanWindow * wnd = new PacmanWindow();
 
+    wnd->configurer(getNombre(),getNombreFantomes(),getVitesse(),getNumMode());
+    wnd->startJeu();
     wnd->show();
 
     close();
@@ -70,8 +87,6 @@ void Joueur:: handleRetourne()
 {
 
     bienvenuewindow * wnd = new bienvenuewindow();
-
     wnd->show();
-
     close();
 }
