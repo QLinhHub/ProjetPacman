@@ -13,12 +13,11 @@ class Joueur : public QFrame{
 
 //    void handleCommence();
     void handleRetourne();
-    void handleModeModerne();
-    void handleModeNormal();
+    void handleCommence();
 
     int getVitesse()
     {
-        return 1000-(labelVT->text()).toInt();
+        return (labelVT->text()).toInt();
     }
 
     int getNombreFantomes()

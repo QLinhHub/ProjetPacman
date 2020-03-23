@@ -37,20 +37,7 @@ class PacmanWindow : public QFrame
     bool isCollisionTime();
     bool handleCollisionTime();
 
-    void resultat();
-    void handleCountdown();
 
-    void setVitessetime(int n){
-        vitesse_time = n;
-    }
-
-    void set_nbFantomes(int n){
-        jeu.setNbFantomes(n);
-    }
-
-    void set_mode(bool b){
-        jeu.setMode(b);
-    }
     protected:
         void paintEvent(QPaintEvent *);
         void keyPressEvent(QKeyEvent *);

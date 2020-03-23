@@ -63,9 +63,7 @@ class Jeu
         Jeu &operator=(const Jeu &)=delete;
 
 //    bool init();
-    bool initMur();
-    bool initFantomes_Pacman();
-
+    bool init();
     void evolue();
 
     // Retourne les dimensions (en nombre de cases)

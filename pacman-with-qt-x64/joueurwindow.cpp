@@ -55,6 +55,7 @@ void Joueur::evolue()
     formLayout->addRow("Nombre de Fantomes: ", labelNF);
     formLayout->addRow("", s_numFantomes);
     formLayout->addRow("Vitesse:", labelVT);
+    formLayout->addRow("", s_vitesse);
 
     formLayout->addRow("Mode",vbox);
     formLayout->addRow(btn_retourne,btn_commence);
@@ -65,8 +66,7 @@ void Joueur::evolue()
     radio1->setChecked(true);
 
 
-    connect(btn_mode_normal, QPushButton::clicked, this, handleModeNormal);
-    connect(btn_mode_moderne, QPushButton::clicked, this, handleModeModerne);
+    connect(btn_commence, QPushButton::clicked, this, handleCommence);
     connect(btn_retourne, QPushButton::clicked, this, handleRetourne);
 
 
@@ -74,29 +74,16 @@ void Joueur::evolue()
 }
 
 
-//void Joueur:: handleCommence()
-//{
-//
-//    PacmanWindow * wnd = new PacmanWindow();
-//
-//    wnd->show();
-//
-//    close();
-//}
-
-void Joueur:: handleRetourne()
+void Joueur:: handleCommence()
 {
-
-    bienvenuewindow * wnd = new bienvenuewindow();
-
+    PacmanWindow * wnd = new PacmanWindow();
     wnd->configurer(getNombre(),getNombreFantomes(),getVitesse(),getNumMode());
     wnd->startJeu();
     wnd->show();
-
     close();
 }
 
-void Joueur::handleModeNormal()
+void Joueur::handleRetourne()
 {
 
     bienvenuewindow * wnd = new bienvenuewindow();
