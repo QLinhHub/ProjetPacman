@@ -3,18 +3,19 @@
 #include <assert.h>
 #include <fstream>
 
-Fantome::Fantome()
+Objet :: Objet()
 {
-    posX = 0; posY = 0;
+    posX = 0;
+    posY = 0;
     dir = BAS;
 }
 
-int Fantome::getPosX() const
+int Objet::getPosX() const
 {
     return posX;
 }
 
-int Fantome::getPosY() const
+int Objet::getPosY() const
 {
     return posY;
 }
@@ -32,11 +33,20 @@ Jeu::~Jeu()
         delete[] terrain;
 }
 
-//bool Jeu::init()
-//{
-//	int x, y;
-//	list<Fantome>::iterator itFantome;
-//
+
+void Jeu::setInfoJeu(int nJoueur, int nFantome, int vit, int mode)
+{
+    nombreJoueur = nJoueur;
+    nombreFantome = nFantome;
+    vitesse = vit;
+    numeroMode = mode;
+}
+
+bool Jeu::init()
+{
+	int x, y;
+	list<Fantome>::iterator itFantome;
+
 //	const char terrain_defaut[15][21] = {
 //		"####################",
 //		"#........##........#",
@@ -101,7 +111,7 @@ Jeu::~Jeu()
 //    return true;
 //}
 
-bool Jeu::initMur()
+/*bool Jeu::initMur()
 {
     int x, y;
     char terrain_defaut[15][21]={};
@@ -138,14 +148,9 @@ bool Jeu::initMur()
     return true;
 }
 
-bool Jeu::initFantomes_Pacman()
-{
-    int x, y;
-    list<Fantome>::iterator itFantome;
-    largeur = 20;
-	hauteur = 15;
+    fantomes.resize(numeroMode);
 
-    fantomes.resize(nbFantomes);
+
 
 	for (itFantome=fantomes.begin(); itFantome!=fantomes.end(); itFantome++)
     {
@@ -164,12 +169,12 @@ bool Jeu::initFantomes_Pacman()
         y = rand()%hauteur;
     } while (terrain[y*largeur+x]!=VIDE);
 
-    posPacmanX = x,
-    posPacmanY = y;
+    pacmanA.posX = x;
+    pacmanA.posY = y;
 
     return true;
 }
-
+*/
 void Jeu::evolue()
 {
     int testX, testY;
@@ -199,6 +204,16 @@ void Jeu::evolue()
 //    }
 }
 
+int Jeu::getNombreJoueur() const
+{
+    return nombreJoueur;
+}
+
+int Jeu::getVitesse() const
+{
+    return vitesse*100;
+}
+
 int Jeu::getNbCasesX() const
 {
     return largeur;
@@ -209,15 +224,15 @@ int Jeu::getNbCasesY() const
     return hauteur;
 }
 
-int Jeu::getPacmanX() const
-{
-    return posPacmanX;
-}
-
-int Jeu::getPacmanY() const
-{
-    return posPacmanY;
-}
+//int Jeu::getPacmanX() const
+//{
+//    return posPacmanX;
+//}
+//
+//int Jeu::getPacmanY() const
+//{
+//    return posPacmanY;
+//}
 
 Case Jeu::getCase(int x, int y) const
 {
@@ -230,19 +245,19 @@ bool Jeu::posValide(int x, int y) const
     return (x>=0 && x<largeur && y>=0 && y<hauteur && terrain[y*largeur+x]==VIDE);
 }
 
-bool Jeu::deplacePacman(Direction dir)
+bool Jeu::deplacePacman(Pacman &pac,Direction dir)
 {
     int depX[] = {-1, 1, 0, 0};
     int depY[] = {0, 0, -1, 1};
     int testX, testY;
 
-    testX = posPacmanX + depX[dir];
-    testY = posPacmanY + depY[dir];
+    testX = pac.getPosX() + depX[dir];
+    testY = pac.getPosY() + depY[dir];
 
     if (posValide(testX, testY))
     {
-        posPacmanX = testX;
-        posPacmanY = testY;
+        pac.posX = testX;
+        pac.posY = testY;
         return true;
     }
     else
