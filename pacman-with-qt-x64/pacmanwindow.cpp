@@ -26,14 +26,12 @@ PacmanWindow::PacmanWindow(QWidget *pParent, Qt::WindowFlags flags):QFrame(pPare
         exit(-1);
     }
 
-    jeu.init();
-
 
 
     largeurCase = pixmapMur.width();
     hauteurCase = pixmapMur.height();
 
-    resize(jeu.getNbCasesX()*largeurCase*2, jeu.getNbCasesY()*hauteurCase+3*hauteurCase);
+    resize(jeu.getNbCasesX()*largeurCase*2, jeu.getNbCasesY()*hauteurCase);
 
 ////    Ajout button "Ajout Fantome"
 //    PacmanButton *btn_ajout = new PacmanButton(this);
@@ -90,14 +88,14 @@ void PacmanWindow::paintEvent(QPaintEvent *)
     for (y=0;y<jeu.getNbCasesY();y++)
         for (x=0;x<jeu.getNbCasesX();x++)
 			if (jeu.getCase(x,y)==MUR)
-                painter.drawPixmap(x*largeurCase, y*hauteurCase+3*hauteurCase, pixmapMur);
+                painter.drawPixmap(x*largeurCase, y*hauteurCase, pixmapMur);
 
     // Dessine les fantomes
     for (itFantome=jeu.fantomes.begin(); itFantome!=jeu.fantomes.end(); itFantome++)
-        painter.drawPixmap(itFantome->getPosX()*largeurCase, itFantome->getPosY()*hauteurCase+3*hauteurCase, pixmapFantome);
+        painter.drawPixmap(itFantome->getPosX()*largeurCase, itFantome->getPosY()*hauteurCase, pixmapFantome);
 
 	// Dessine Pacman
-	painter.drawPixmap(jeu.pacmanA.getPosX()*largeurCase, jeu.pacmanA.getPosY()*hauteurCase+3*hauteurCase, pixmapPacman);
+	painter.drawPixmap(jeu.pacmanA.getPosX()*largeurCase, jeu.pacmanA.getPosY()*hauteurCase, pixmapPacman);
 }
 
 void PacmanWindow::keyPressEvent(QKeyEvent *event)

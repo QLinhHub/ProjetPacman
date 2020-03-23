@@ -23,8 +23,7 @@ int Objet::getPosY() const
 Jeu::Jeu()
 {
     terrain = NULL;
-    largeur = 0; hauteur = 0;
-    posPacmanX = 0; posPacmanY = 0;
+    largeur = 20; hauteur = 15;
 }
 
 Jeu::~Jeu()
