@@ -25,9 +25,9 @@ class Fantome
 
 class Jeu
 {
-
-
-
+    private:
+        int nbFantomes;
+        bool modeNormal;
     protected:
         Case *terrain;
         int largeur, hauteur; // Nombre de cases en largeur et en hauteur
@@ -43,7 +43,10 @@ class Jeu
 
         Jeu &operator=(const Jeu &)=delete;
 
-    bool init();
+//    bool init();
+    bool initMur();
+    bool initFantomes_Pacman();
+
     void evolue();
 
     // Retourne les dimensions (en nombre de cases)
@@ -63,6 +66,14 @@ class Jeu
 
     // Déplace Pacman dans une direction (si la case à atteindre est valide)
     bool deplacePacman(Direction);
+
+    void setNbFantomes(int n){
+        nbFantomes = n;
+    }
+
+    void setMode(bool b){
+        modeNormal = b;
+    }
 };
 
 #endif

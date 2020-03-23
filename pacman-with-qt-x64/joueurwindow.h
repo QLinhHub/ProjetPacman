@@ -11,12 +11,14 @@ class Joueur : public QFrame{
     Joueur(QWidget* pparent=0, Qt::WindowFlags flags=0);
     void evolue();
 
-    void handleCommence();
+//    void handleCommence();
     void handleRetourne();
+    void handleModeModerne();
+    void handleModeNormal();
 
     int getVitesse()
     {
-        return (labelVT->text()).toInt();
+        return 1000-(labelVT->text()).toInt();
     }
 
     int getnumFantomes()
@@ -39,7 +41,6 @@ class Joueur : public QFrame{
     }
 
   private:
-
     QLineEdit *name1;
     QLineEdit *name2;
     QLabel *labelNF;

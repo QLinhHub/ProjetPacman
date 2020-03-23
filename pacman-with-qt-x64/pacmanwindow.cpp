@@ -26,30 +26,37 @@ PacmanWindow::PacmanWindow(QWidget *pParent, Qt::WindowFlags flags):QFrame(pPare
         exit(-1);
     }
 
-    jeu.init();
+    jeu.initMur();
+    jeu.initFantomes_Pacman();
 
-    QTimer *timer = new QTimer(this);
-    connect(timer, QTimer::timeout, this, PacmanWindow::handleTimer);
-    timer->start(100);
+
+//    QTimer *timer = new QTimer(this);
+//    connect(timer, QTimer::timeout, this, PacmanWindow::handleTimer);
+//    timer->start(vitesse_time);
 
     largeurCase = pixmapMur.width();
     hauteurCase = pixmapMur.height();
 
-    resize(jeu.getNbCasesX()*largeurCase, jeu.getNbCasesY()*hauteurCase+3*hauteurCase);
+    resize(jeu.getNbCasesX()*largeurCase*2, jeu.getNbCasesY()*hauteurCase);
+}
 
-//    Ajout button "Ajout Fantome"
-    PacmanButton *btn_ajout = new PacmanButton(this);
-    btn_ajout->setFixedSize(100,20);
-    btn_ajout->setText("Ajout Fantome");
-    btn_ajout->move(10,10);
-    connect(btn_ajout, PacmanButton::clicked, this, PacmanWindow::ajoutFantome);
+void PacmanWindow::evolue_window()
+{
+    jeu.initMur();
+    jeu.initFantomes_Pacman();
 
-//  Ajout button "Suppr Fantome"
-    PacmanButton *btn_suppr = new PacmanButton(this);
-    btn_suppr->setFixedSize(100,20);
-    btn_suppr->setText("Suppr Fantome");
-    btn_suppr->move(120,10);
-    connect(btn_suppr, PacmanButton::clicked, this, PacmanWindow::supprFantome);
+    QTimer *timer = new QTimer(this);
+    connect(timer, QTimer::timeout, this, PacmanWindow::handleTimer);
+    timer->start(vitesse_time);
+
+    label_countdown = new QLabel("0:10", this);
+    label_countdown->setGeometry(QRect(QPoint(900, 45), QSize(130, 50)));
+    label_countdown->setFont(QFont("Arial", 30));
+
+    countdown.setHMS(0,0,10,0);
+    QTimer *time = new QTimer(this);
+    connect(time, QTimer::timeout, this, PacmanWindow::handleCountdown);
+    time->start(1000);
 }
 
 void PacmanWindow::paintEvent(QPaintEvent *)
@@ -68,14 +75,14 @@ void PacmanWindow::paintEvent(QPaintEvent *)
     for (y=0;y<jeu.getNbCasesY();y++)
         for (x=0;x<jeu.getNbCasesX();x++)
 			if (jeu.getCase(x,y)==MUR)
-                painter.drawPixmap(x*largeurCase, y*hauteurCase+3*hauteurCase, pixmapMur);
+                painter.drawPixmap(x*largeurCase, y*hauteurCase, pixmapMur);
 
     // Dessine les fantomes
     for (itFantome=jeu.fantomes.begin(); itFantome!=jeu.fantomes.end(); itFantome++)
-        painter.drawPixmap(itFantome->getPosX()*largeurCase, itFantome->getPosY()*hauteurCase+3*hauteurCase, pixmapFantome);
+        painter.drawPixmap(itFantome->getPosX()*largeurCase, itFantome->getPosY()*hauteurCase, pixmapFantome);
 
 	// Dessine Pacman
-	painter.drawPixmap(jeu.getPacmanX()*largeurCase, jeu.getPacmanY()*hauteurCase+3*hauteurCase, pixmapPacman);
+	painter.drawPixmap(jeu.getPacmanX()*largeurCase, jeu.getPacmanY()*hauteurCase, pixmapPacman);
 }
 
 void PacmanWindow::keyPressEvent(QKeyEvent *event)
@@ -116,6 +123,12 @@ void PacmanWindow::supprFantome()
         jeu.fantomes.pop_back();
 }
 
+void PacmanWindow::handleCountdown()
+{
+    countdown = countdown.addSecs(-1);
+    label_countdown->setText(countdown.toString("m:ss"));
+}
+
 // Classe PacmanButton
 PacmanButton::PacmanButton(QWidget *parent) : QPushButton(parent) { }
 
@@ -124,4 +137,3 @@ void PacmanButton::keyPressEvent(QKeyEvent *e)
     if(parent() != NULL)
         QCoreApplication::sendEvent(parent(), e);
 }
-
