@@ -25,6 +25,7 @@ class Objet
 
 class Fantome: public Objet
 {
+
   public:
     Fantome(){}
 };
@@ -61,7 +62,10 @@ class Jeu
         ~Jeu();
         Jeu &operator=(const Jeu &)=delete;
 
-    bool init();
+//    bool init();
+    bool initMur();
+    bool initFantomes_Pacman();
+
     void evolue();
 
     // Retourne les dimensions (en nombre de cases)
@@ -88,6 +92,7 @@ class Jeu
     bool posValide(int, int) const;
 
     // Déplace Pacman dans une direction (si la case à atteindre est valide)
+
     bool deplacePacman(Pacman &, Direction);
 };
 
