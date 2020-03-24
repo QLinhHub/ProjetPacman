@@ -12,11 +12,10 @@ class PacmanWindow : public QFrame
     QLabel* label_countdown;
     QTime countdown;
 
-
   protected:
     Jeu jeu;
 
-    QPixmap pixmapPacman, pixmapTime, pixmapFantome, pixmapMur ;
+    QPixmap pixmapPacman, pixmapTime, pixmapFantome, pixmapMur, pixmapGod;
     QPixmap pixmapPacHaut, pixmapPacBas, pixmapPacGauche, pixmapPacDroite;
   public:
     PacmanWindow(QWidget *pParent=0, Qt::WindowFlags flags=0);

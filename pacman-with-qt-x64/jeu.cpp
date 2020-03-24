@@ -45,6 +45,7 @@ bool Jeu::init()
 {
 	int x, y;
 	list<Fantome>::iterator itFantome;
+	list<GodFantome>::iterator itGod;
 
 //	const char terrain_defaut[15][21] = {
 //		"####################",
@@ -97,6 +98,21 @@ bool Jeu::init()
         itFantome->dir = (Direction)(rand()%4);
     }
 
+
+    godFantomes.resize(3);
+
+    for (itGod=godFantomes.begin(); itGod!=godFantomes.end(); itGod++)
+    {
+        do {
+            x = rand()%largeur;
+            y = rand()%hauteur;
+        } while (terrain[y*largeur+x]!=VIDE);
+
+        itGod->posX = x;
+        itGod->posY = y;
+        itGod->dir = (Direction)(rand()%4);
+    }
+
     do {
         x = rand()%largeur;
         y = rand()%hauteur;
@@ -105,6 +121,16 @@ bool Jeu::init()
     pacmanA.posX = x;
     pacmanA.posY = y;
 
+    if (nombreJoueur == 2){
+        do {
+            x = rand()%largeur;
+            y = rand()%hauteur;
+        } while (terrain[y*largeur+x]!=VIDE);
+
+        pacmanB.posX = x;
+        pacmanB.posY = y;
+    }
+
     return true;
 }
 
@@ -112,6 +138,7 @@ void Jeu::evolue()
 {
     int testX, testY;
 	list<Fantome>::iterator itFantome;
+	list<GodFantome>::iterator itGod;
 
     int depX[] = {-1, 1, 0, 0};
     int depY[] = {0, 0, -1, 1};
@@ -131,6 +158,21 @@ void Jeu::evolue()
             itFantome->dir = (Direction)(rand()%4);
     }
 
+    for (itGod=godFantomes.begin(); itGod!=godFantomes.end(); itGod++)
+    {
+       testX = itGod->posX + depX[itGod->dir];
+       testY = itGod->posY + depY[itGod->dir];
+
+        if (terrain[testY*largeur+testX]==VIDE)
+        {
+            itGod->posX = testX;
+            itGod->posY = testY;
+        }
+        else
+            // Changement de direction
+            itGod->dir = (Direction)(rand()%4);
+    }
+
 //    for(auto it = fantomes.begin(); it != fantomes.end(); it++){
 //        if(it->getPosX() == getPacmanX() && it->getPosY() == getPacmanY())
 //            fantomes.erase(it);
@@ -144,7 +186,7 @@ int Jeu::getNombreJoueur() const
 
 int Jeu::getVitesse() const
 {
-    return vitesse*10;
+    return vitesse;
 }
 
 int Jeu::getNbCasesX() const

@@ -36,6 +36,12 @@ class Pacman: public Objet
     Pacman(){}
 };
 
+class GodFantome: public Objet
+{
+  public:
+    GodFantome(){}
+};
+
 class Jeu
 {
 
@@ -46,6 +52,7 @@ class Jeu
 
     public:
         list<Fantome> fantomes;
+        list<GodFantome> godFantomes;
 
     public:
         Pacman pacmanA;

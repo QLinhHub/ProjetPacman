@@ -20,13 +20,17 @@ PacmanWindow::PacmanWindow(QWidget *pParent, Qt::WindowFlags flags):QFrame(pPare
         exit(-1);
     }
 
+    if (pixmapGod.load("./data/godFantome.png")==false)
+    {
+        cout<<"Impossible d'ouvrir god fantome.bmp"<<endl;
+        exit(-1);
+    }
+
     if (pixmapMur.load("./data/mur.bmp")==false)
     {
         cout<<"Impossible d'ouvrir mur.bmp"<<endl;
         exit(-1);
     }
-
-
 
     largeurCase = pixmapMur.width();
     hauteurCase = pixmapMur.height();
@@ -76,6 +80,7 @@ void PacmanWindow::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     list<Fantome>::const_iterator itFantome;
+    list<GodFantome>::const_iterator itGod;
     int x, y;
 
     // Taille des cases en pixels
@@ -94,12 +99,20 @@ void PacmanWindow::paintEvent(QPaintEvent *)
     for (itFantome=jeu.fantomes.begin(); itFantome!=jeu.fantomes.end(); itFantome++)
         painter.drawPixmap(itFantome->getPosX()*largeurCase, itFantome->getPosY()*hauteurCase, pixmapFantome);
 
+    // Dessine les gods
+    for (itGod=jeu.godFantomes.begin(); itGod!=jeu.godFantomes.end(); itGod++)
+        painter.drawPixmap(itGod->getPosX()*largeurCase, itGod->getPosY()*hauteurCase, pixmapGod);
+
 	// Dessine Pacman
 	painter.drawPixmap(jeu.pacmanA.getPosX()*largeurCase, jeu.pacmanA.getPosY()*hauteurCase, pixmapPacman);
+	if (jeu.getNombreJoueur() == 2)
+        painter.drawPixmap(jeu.pacmanB.getPosX()*largeurCase, jeu.pacmanB.getPosY()*hauteurCase, pixmapPacman);
+
 }
 
 void PacmanWindow::keyPressEvent(QKeyEvent *event)
 {
+
     if (event->key()==Qt::Key_Left)
         jeu.deplacePacman(jeu.pacmanA,GAUCHE);
     else if (event->key()==Qt::Key_Right)
@@ -108,6 +121,16 @@ void PacmanWindow::keyPressEvent(QKeyEvent *event)
         jeu.deplacePacman(jeu.pacmanA,HAUT);
     else if (event->key()==Qt::Key_Down)
         jeu.deplacePacman(jeu.pacmanA,BAS);
+
+    if (jeu.getNombreJoueur() == 2)
+        if (event->key()==Qt::Key_A)
+            jeu.deplacePacman(jeu.pacmanB,GAUCHE);
+        else if (event->key()==Qt::Key_D)
+            jeu.deplacePacman(jeu.pacmanB,DROITE);
+        else if (event->key()==Qt::Key_W)
+            jeu.deplacePacman(jeu.pacmanB,HAUT);
+        else if (event->key()==Qt::Key_S)
+            jeu.deplacePacman(jeu.pacmanB,BAS);
     //Pacman mange un Fantom
 //    for(auto it = jeu.fantomes.begin(); it != jeu.fantomes.end(); it++){
 //        if(it->getPosX() == jeu.getPacmanX() && it->getPosY() == jeu.getPacmanY())
@@ -124,7 +147,10 @@ void PacmanWindow::handleTimer()
 
 void PacmanWindow::handleCountdown()
 {
-    countdown = countdown.addSecs(-1);
+    if (countdown.second() != 0)
+        countdown = countdown.addSecs(-1);
+    else
+        //close();
     label_countdown->setText(countdown.toString("m:ss"));
 }
 
