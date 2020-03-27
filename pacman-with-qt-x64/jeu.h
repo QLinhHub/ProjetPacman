@@ -9,7 +9,7 @@ typedef enum {GAUCHE, DROITE, HAUT, BAS} Direction;
 
 class Jeu;
 
-class Fantome
+class Objet
 {
     friend class Jeu;
 
@@ -18,16 +18,33 @@ class Fantome
     Direction dir;
 
   public:
-    Fantome();
+    Objet();
     int getPosX() const;
     int getPosY() const;
 };
 
+class Fantome: public Objet
+{
+
+  public:
+    Fantome(){}
+};
+
+class Pacman: public Objet
+{
+  public:
+    Pacman(){}
+};
+
+class GodFantome: public Objet
+{
+  public:
+    GodFantome(){}
+};
+
 class Jeu
 {
-    private:
-        int nbFantomes;
-        bool modeNormal;
+
     protected:
         Case *terrain;
         int largeur, hauteur; // Nombre de cases en largeur et en hauteur
@@ -35,27 +52,42 @@ class Jeu
 
     public:
         list<Fantome> fantomes;
+        list<GodFantome> godFantomes;
 
+    public:
+        Pacman pacmanA;
+        Pacman pacmanB;
+
+    protected:
+        int nombreJoueur;
+        int vitesse;
+        int nombreFantome;
+        int numeroMode;
     public:
         Jeu();
         Jeu(const Jeu &)=delete;
         ~Jeu();
-
         Jeu &operator=(const Jeu &)=delete;
 
 //    bool init();
-    bool initMur();
-    bool initFantomes_Pacman();
-
+    bool init();
     void evolue();
 
     // Retourne les dimensions (en nombre de cases)
     int getNbCasesX() const;
     int getNbCasesY() const;
 
-    // Retourne la position du Pacman
-    int getPacmanX() const;
-    int getPacmanY() const;
+    //Mettre les parametre necessaire
+    void setInfoJeu(int, int, int, int);
+
+    //Retourne les parametre pour configurer le jeu
+    int getNombreJoueur() const;
+    int getVitesse() const;
+    int getNombreFantome() const;
+
+//    // Retourne la position du Pacman
+//    int getPacmanX() const;
+//    int getPacmanY() const;
 
     // Retourne la case à une position donnée
     Case getCase(int, int) const;
@@ -65,15 +97,8 @@ class Jeu
     bool posValide(int, int) const;
 
     // Déplace Pacman dans une direction (si la case à atteindre est valide)
-    bool deplacePacman(Direction);
 
-    void setNbFantomes(int n){
-        nbFantomes = n;
-    }
-
-    void setMode(bool b){
-        modeNormal = b;
-    }
+    bool deplacePacman(Pacman &, Direction);
 };
 
 #endif
