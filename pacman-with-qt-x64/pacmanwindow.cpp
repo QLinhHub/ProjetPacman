@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include "pacmanwindow.h"
 
 using namespace std;
@@ -36,20 +37,6 @@ PacmanWindow::PacmanWindow(QWidget *pParent, Qt::WindowFlags flags):QFrame(pPare
     hauteurCase = pixmapMur.height();
 
     resize(jeu.getNbCasesX()*largeurCase*2, jeu.getNbCasesY()*hauteurCase);
-
-////    Ajout button "Ajout Fantome"
-//    PacmanButton *btn_ajout = new PacmanButton(this);
-//    btn_ajout->setFixedSize(100,20);
-//    btn_ajout->setText("Ajout Fantome");
-//    btn_ajout->move(10,10);
-//    connect(btn_ajout, PacmanButton::clicked, this, PacmanWindow::ajoutFantome);
-//
-////  Ajout button "Suppr Fantome"
-//    PacmanButton *btn_suppr = new PacmanButton(this);
-//    btn_suppr->setFixedSize(100,20);
-//    btn_suppr->setText("Suppr Fantome");
-//    btn_suppr->move(120,10);
-//    connect(btn_suppr, PacmanButton::clicked, this, PacmanWindow::supprFantome);
 }
 
 void PacmanWindow::configurer(int nJoueur, int nFantome, int vit, int mode)
@@ -64,15 +51,46 @@ void PacmanWindow::startJeu()
     connect(timer, QTimer::timeout, this, PacmanWindow::handleTimer);
     timer->start(jeu.getVitesse());
 
-    label_countdown = new QLabel("0:10", this);
-    label_countdown->setGeometry(QRect(QPoint(900, 45), QSize(130, 50)));
-    label_countdown->setFont(QFont("Arial", 30));
+    if(jeu.getNombreJoueur() == 1)
+    {
+        label_countdown = new QLabel("0:20", this);
+        label_countdown->setGeometry(QRect(QPoint(900, 45), QSize(130, 50)));
+        label_countdown->setFont(QFont("Arial", 30));
 
-    countdown.setHMS(0,0,10,0);
-    QTimer *time = new QTimer(this);
-    connect(time, QTimer::timeout, this, PacmanWindow::handleCountdown);
-    time->start(1000);
+        countdown.setHMS(0,0,20,0);
+        QTimer *time = new QTimer(this);
+        connect(time, QTimer::timeout, this, PacmanWindow::handleCountdown);
+        time->start(1000);
 
+        QLabel* labelA = new QLabel("Mark: ", this);
+        labelA->setGeometry(QRect(QPoint(730, 90), QSize(300, 100)));
+        labelA->setFont(QFont("Arial", 30));
+
+        label_markA = new QLabel(this);
+        label_markA->setGeometry(QRect(QPoint(1100, 90), QSize(200, 100)));
+        label_markA->setFont(QFont("Arial", 30));
+        label_markA->setText(QString::fromStdString(std::to_string(jeu.pacmanA.mark)));
+    }
+    else
+    {
+        QLabel* labelA = new QLabel("Joueur A: ", this);
+        labelA->setGeometry(QRect(QPoint(730, 90), QSize(300, 100)));
+        labelA->setFont(QFont("Arial", 30));
+
+        QLabel* labelB = new QLabel("Joueur B: ", this);
+        labelB->setGeometry(QRect(QPoint(730, 180), QSize(300, 100)));
+        labelB->setFont(QFont("Arial", 30));
+
+        label_markA = new QLabel(this);
+        label_markA->setGeometry(QRect(QPoint(1100, 90), QSize(200, 100)));
+        label_markA->setFont(QFont("Arial", 30));
+        label_markA->setText(QString::fromStdString(std::to_string(jeu.pacmanA.mark)));
+
+        label_markB = new QLabel(this);
+        label_markB->setGeometry(QRect(QPoint(1100, 180), QSize(2000, 100)));
+        label_markB->setFont(QFont("Arial", 30));
+        label_markB->setText(QString::fromStdString(std::to_string(jeu.pacmanB.mark)));
+    }
 }
 
 
@@ -122,7 +140,7 @@ void PacmanWindow::keyPressEvent(QKeyEvent *event)
     else if (event->key()==Qt::Key_Down)
         jeu.deplacePacman(jeu.pacmanA,BAS);
 
-    if (jeu.getNombreJoueur() == 2)
+    if (jeu.getNombreJoueur() == 2){
         if (event->key()==Qt::Key_A)
             jeu.deplacePacman(jeu.pacmanB,GAUCHE);
         else if (event->key()==Qt::Key_D)
@@ -130,43 +148,80 @@ void PacmanWindow::keyPressEvent(QKeyEvent *event)
         else if (event->key()==Qt::Key_W)
             jeu.deplacePacman(jeu.pacmanB,HAUT);
         else if (event->key()==Qt::Key_S)
-            jeu.deplacePacman(jeu.pacmanB,BAS);
-    //Pacman mange un Fantom
-//    for(auto it = jeu.fantomes.begin(); it != jeu.fantomes.end(); it++){
-//        if(it->getPosX() == jeu.getPacmanX() && it->getPosY() == jeu.getPacmanY())
-//            jeu.fantomes.erase(it);
-//    }
+            jeu.deplacePacman(jeu.pacmanB,BAS);}
+
+    if(jeu.getNombreJoueur() == 1){
+        jeu.mangerA();
+    }else{
+        jeu.mangerA();
+        jeu.mangerB();
+    }
     update();
 }
 
 void PacmanWindow::handleTimer()
 {
     jeu.evolue();
+    if(jeu.getNombreJoueur() == 1)
+        label_markA->setText(QString::fromStdString(std::to_string(jeu.pacmanA.mark)));
+    else{
+        label_markA->setText(QString::fromStdString(std::to_string(jeu.pacmanA.mark)));
+        label_markB->setText(QString::fromStdString(std::to_string(jeu.pacmanB.mark)));
+    }
     repaint();
 }
 
 void PacmanWindow::handleCountdown()
 {
-    if (countdown.second() != 0)
+    QMessageBox msg;
+    msg.resize(300, 300);
+    msg.setFont(QFont("Arial", 50));
+
+    if(jeu.getNombreJoueur() == 1)
+    {
         countdown = countdown.addSecs(-1);
+        label_countdown->setText(countdown.toString("m:ss"));
+        if(label_countdown->text() == "0:00" && (jeu.pacmanA.mark < (jeu.getNombreFantome() + 9)))
+        {
+            msg.setText("Your bad! You loss!");
+            jeu.setNombreFantome(0);
+
+            msg.exec();
+            result* RWD = new result();
+            close();
+            RWD->show();
+        }
+        if(label_countdown->text() != "0:00" && (jeu.pacmanA.mark == (jeu.getNombreFantome() + 9)))
+        {
+            msg.setText("Trop fort! You win!");
+            jeu.setNombreFantome(0);
+
+            msg.exec();
+            result* RWD = new result();
+            close();
+            RWD->show();
+        }
+    }
+
     else
-        //close();
-    label_countdown->setText(countdown.toString("m:ss"));
-}
+    {
+        if((jeu.pacmanA.mark + jeu.pacmanB.mark) == (jeu.getNombreFantome() + 9))
+        {
+            if(jeu.pacmanA.mark < jeu.pacmanB.mark)
+                msg.setText("B win! Nope A!");
+            else if(jeu.pacmanA.mark == jeu.pacmanB.mark)
+                msg.setText("You all trop fort!");
+            else
+                msg.setText("A win! Nope B!");
+            msg.exec();
+            result* RWD = new result();
+            close();
+            RWD->show();
 
-
-void PacmanWindow::ajoutFantome()
-{
-    Fantome f;
-    int x, y;
-    Direction dir;
-    // Initialize random position et direction
-}
-
-void PacmanWindow::supprFantome()
-{
-    if (!jeu.fantomes.empty())
-        jeu.fantomes.pop_back();
+            cout << jeu.getNombreFantome();
+            jeu.setNombreFantome(0);
+        }
+    }
 }
 
 // Classe PacmanButton
@@ -177,4 +232,3 @@ void PacmanButton::keyPressEvent(QKeyEvent *e)
     if(parent() != NULL)
         QCoreApplication::sendEvent(parent(), e);
 }
-

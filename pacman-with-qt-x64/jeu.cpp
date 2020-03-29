@@ -20,6 +20,8 @@ int Objet::getPosY() const
     return posY;
 }
 
+Pacman::Pacman() : Objet(), mark(0){}
+
 Jeu::Jeu()
 {
     terrain = NULL;
@@ -47,23 +49,6 @@ bool Jeu::init()
 	list<Fantome>::iterator itFantome;
 	list<GodFantome>::iterator itGod;
 
-//	const char terrain_defaut[15][21] = {
-//		"####################",
-//		"#........##........#",
-//		"#.#####..##...####.#",
-//		"#........##........#",
-//		"#..................#",
-//		"#......#....#......#",
-//		"#......#...##......#",
-//		"#####..#....#..#####",
-//		"#......##...#......#",
-//		"#......#....#......#",
-//		"#..................#",
-//		"#..................#",
-//		"#.....#......#.....#",
-//		"#.....#......#.....#",
-//        "####################"
-//    };
     ifstream mur;
     mur.open("mur.txt");
     char terrain_defaut[15][21] = {};
@@ -173,10 +158,12 @@ void Jeu::evolue()
             itGod->dir = (Direction)(rand()%4);
     }
 
-//    for(auto it = fantomes.begin(); it != fantomes.end(); it++){
-//        if(it->getPosX() == getPacmanX() && it->getPosY() == getPacmanY())
-//            fantomes.erase(it);
-//    }
+    if(nombreJoueur == 1){
+        mangerA();
+    }else{
+        mangerA();
+        mangerB();
+    }
 }
 
 int Jeu::getNombreJoueur() const
@@ -199,15 +186,11 @@ int Jeu::getNbCasesY() const
     return hauteur;
 }
 
-//int Jeu::getPacmanX() const
-//{
-//    return posPacmanX;
-//}
-//
-//int Jeu::getPacmanY() const
-//{
-//    return posPacmanY;
-//}
+int Jeu::getNombreFantome() const
+{
+    return nombreFantome;
+}
+
 
 Case Jeu::getCase(int x, int y) const
 {
@@ -237,4 +220,64 @@ bool Jeu::deplacePacman(Pacman &pac,Direction dir)
     }
     else
         return false;
+}
+
+bool Jeu::colission_fantomes(Fantome& fan, Pacman& pac)
+{
+    if(fan.getPosX() == pac.getPosX() && fan.getPosY() == pac.getPosY())
+        return true;
+    else
+        return false;
+}
+
+bool Jeu::colission_god(GodFantome& god, Pacman& pac)
+{
+    if(god.getPosX() == pac.getPosX() && god.getPosY() == pac.getPosY())
+        return true;
+    else
+        return false;
+}
+
+void Jeu::handleCollision_fan(list<Fantome> fans,list<Fantome> :: iterator it)
+{
+    fans.erase(it);
+}
+
+void Jeu::handleCollision_god(list<GodFantome> godfans,list<GodFantome> :: iterator it)
+{
+    godfans.erase(it);
+}
+
+void Jeu::mangerA()
+{
+    for(auto it = fantomes.begin(); it != fantomes.end(); it++){
+        if(colission_fantomes(*it, pacmanA)){
+            pacmanA.mark++;
+            handleCollision_fan(fantomes, it);
+        }
+    }
+
+    for(auto it = godFantomes.begin(); it != godFantomes.end(); it++){
+        if(colission_god(*it, pacmanA)){
+            pacmanA.mark += 3;
+            handleCollision_god(godFantomes, it);
+        }
+    }
+}
+
+void Jeu::mangerB()
+{
+    for(auto it = fantomes.begin(); it != fantomes.end(); it++){
+        if(colission_fantomes(*it, pacmanB)){
+            pacmanB.mark++;
+            handleCollision_fan(fantomes, it);
+        }
+    }
+
+    for(auto it = godFantomes.begin(); it != godFantomes.end(); it++){
+        if(colission_god(*it, pacmanB)){
+            pacmanB.mark += 3;
+            handleCollision_god(godFantomes, it);
+        }
+    }
 }

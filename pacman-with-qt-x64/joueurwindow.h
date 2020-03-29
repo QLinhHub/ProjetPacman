@@ -5,13 +5,16 @@
 #include <QtWidgets/QtWidgets>
 #include "jeu.h"
 
+#include <iostream>
+
+using namespace std;
+
 class Joueur : public QFrame{
 
   public:
     Joueur(QWidget* pparent=0, Qt::WindowFlags flags=0);
     void evolue();
 
-//    void handleCommence();
     void handleRetourne();
     void handleCommence();
 

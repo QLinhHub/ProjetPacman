@@ -48,6 +48,8 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="pacmanwindow.cpp" />
 		<Unit filename="pacmanwindow.h" />
+		<Unit filename="result.cpp" />
+		<Unit filename="result.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

@@ -3,13 +3,17 @@
 
 #include <QtCore/QtCore>
 #include <QtWidgets/QtWidgets>
+
+#include "result.h"
 #include "jeu.h"
-#include "joueurwindow.h"
+
 
 class PacmanWindow : public QFrame
 {
   private:
     QLabel* label_countdown;
+    QLabel* label_markA;
+    QLabel* label_markB;
     QTime countdown;
 
   protected:
@@ -25,17 +29,6 @@ class PacmanWindow : public QFrame
 
     void handleTimer();
     void handleCountdown();
-
-
-    void ajoutFantome();        // ajouter un fantome
-    void supprFantome();        // supprimer un fantome
-
-    bool isCollision();
-    void handleCollision();
-
-    bool isCollisionTime();
-    bool handleCollisionTime();
-
 
     protected:
         void paintEvent(QPaintEvent *);

@@ -17,7 +17,6 @@ Joueur::Joueur(QWidget* pparent, Qt::WindowFlags flags) : QFrame(pparent, flags)
 void Joueur::evolue()
 {
     QFormLayout *formLayout = new QFormLayout;
-    //formLayout->setAlignment(Qt::AlignTop);
     formLayout->setSpacing(50);
 
     if (nombreJoueur == 1)

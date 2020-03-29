@@ -2,6 +2,7 @@
 #define JEU_H
 
 #include <list>
+#include "pacmanwindow.h"
 using namespace std;
 
 typedef enum {VIDE, MUR} Case;
@@ -33,7 +34,8 @@ class Fantome: public Objet
 class Pacman: public Objet
 {
   public:
-    Pacman(){}
+    Pacman();
+    int mark;
 };
 
 class GodFantome: public Objet
@@ -57,19 +59,18 @@ class Jeu
     public:
         Pacman pacmanA;
         Pacman pacmanB;
-
     protected:
         int nombreJoueur;
         int vitesse;
         int nombreFantome;
         int numeroMode;
+
     public:
         Jeu();
         Jeu(const Jeu &)=delete;
         ~Jeu();
         Jeu &operator=(const Jeu &)=delete;
 
-//    bool init();
     bool init();
     void evolue();
 
@@ -84,10 +85,9 @@ class Jeu
     int getNombreJoueur() const;
     int getVitesse() const;
     int getNombreFantome() const;
-
-//    // Retourne la position du Pacman
-//    int getPacmanX() const;
-//    int getPacmanY() const;
+    void setNombreFantome(int a){
+        nombreFantome = a;
+    }
 
     // Retourne la case à une position donnée
     Case getCase(int, int) const;
@@ -99,6 +99,14 @@ class Jeu
     // Déplace Pacman dans une direction (si la case à atteindre est valide)
 
     bool deplacePacman(Pacman &, Direction);
+
+    bool colission_fantomes(Fantome&, Pacman&);
+    bool colission_god(GodFantome&, Pacman&);
+    void handleCollision_fan(list<Fantome>,list<Fantome> :: iterator);
+    void handleCollision_god(list<GodFantome>, list<GodFantome> :: iterator);
+
+    void mangerA();
+    void mangerB();
 };
 
 #endif
